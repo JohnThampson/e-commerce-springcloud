@@ -1,0 +1,36 @@
+server:
+  port: 8000
+  servlet:
+    context-path: '/ecommerce-nacos-client'
+
+spring:
+  application:
+    name: e-commerce-nacos-client
+  cloud:
+    nacos:
+      #服务注册发现
+      discovery:
+        enabled: true # 如果不想使用Nacos 进行服务注册和发现， 设置为false即可
+        server-addr: 192.168.80.1:8848 # Nacos 服务器集群地址 -> 192.168.101.7:8848,192.168.101.7:8858,192.168.101.7:8868
+        namespace: d8f10128-59d7-40c1-b5db-ca94be71aa23
+        metadata:
+          management:
+            context-path: ${server.servlet.context-path}/actuator
+      # 配置管理
+      config:
+        prefix: imooc-e-commerce
+        file-extension: yaml  #配置内容的数据格式, 默认为 properties
+        enabled: true # 如果不想使用Nacos 进行配置管理, 设置为false即可
+        group: DEFAULT_GROUP  # 组, 默认为DEFAULT_GROUP
+        namespace: d8f10128-59d7-40c1-b5db-ca94be71aa23
+        server-addr: 127.0.0.1:8848
+
+# 暴漏端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
